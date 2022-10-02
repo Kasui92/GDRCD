@@ -490,6 +490,42 @@ function gdrcd_controllo_permessi($permesso)
 }
 
 /**
+ * Funzione controllo permessi stanza
+ * @return bool
+ * @throws Exception
+ */
+function gdrcd_controllo_permessi_chat()
+{
+    // Ottengo i dati della stanza
+    $infoChat = gdrcd_query("SELECT * FROM mappa WHERE id = " . (int)$_SESSION['luogo'] . " LIMIT 1");
+
+    return (bool) (
+        // Se la stanza è pubblica
+        $infoChat['privata'] < 1
+        ||
+        // Se la stanza è privata
+        (
+            (
+                // Se l'utente è proprietario
+                ($infoChat['proprietario'] == gdrcd_capital_letter($_SESSION['login']))
+                ||
+                // Se la gilda dell'utente è proprietaria
+                strpos($_SESSION['gilda'], $infoChat['proprietario'])
+                ||
+                // Se l'utente è tra gli ospiti
+                strpos($infoChat['invitati'], gdrcd_capital_letter($_SESSION['login']))
+                ||
+                // Se l'utente è un moderatore
+                (($PARAMETERS['mode']['spyprivaterooms'] == 'ON') && ($_SESSION['permessi'] > MODERATOR))
+            )
+            &&
+            // Non è ancora scaduto il tempo di permanenza
+            $infoChat['scadenza'] > strftime('%Y-%m-%d %H:%M:%S')
+        )
+    );
+}
+
+/**
  * Funzione controllo permessi forum
  * @param int $tipo
  * @param mixed $proprietari
