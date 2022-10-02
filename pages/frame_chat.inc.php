@@ -11,23 +11,11 @@ $info = gdrcd_query("SELECT nome, stanza_apparente, invitati, privata, proprieta
         // Costruisco il controllore audio
         echo AudioController::build('chat');
 
-        //e' una stanza privata?
-        if($info['privata'] == 1) {
-            $allowance = false;
-
-            if((($info['proprietario'] == gdrcd_capital_letter($_SESSION['login'])) || (strpos($_SESSION['gilda'], $info['proprietario']) != false) || (strpos($info['invitati'], gdrcd_capital_letter($_SESSION['login'])) != false) || (($PARAMETERS['mode']['spyprivaterooms'] == 'ON') && ($_SESSION['permessi'] > MODERATOR))) && ($info['scadenza'] > strftime('%Y-%m-%d %H:%M:%S'))) {
-                $allowance = true;
-            }
-        } else {
-            $allowance = true;
-        }
-        //se e' privata e l'utente non ha titolo di leggerla
-        if($allowance === false) {
+        // Se è una chat privata, controllo che l'utente sia invitato
+        if(!gdrcd_controllo_permessi_chat()) {
             echo '<div class="warning">'.$MESSAGE['chat']['whisper']['privat'].'</div>';
-
-            //echo $info['invitati']; echo gdrcd_capital_letter($_SESSION['login']);
-        } else {
-            ?>
+        }
+        else { ?>
             <?php $_SESSION['last_message'] = 0; ?>
             <div style="height: 1px; width: 1px;">
                 <iframe src="pages/chat.inc.php?ref=30&chat=yes" class="iframe_chat" id="chat_frame" name="chat_frame" frameborder="0" allowtransparency="true">

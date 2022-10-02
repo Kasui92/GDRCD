@@ -14,6 +14,11 @@ $handleDBConnection = gdrcd_connect();
 //Ricevo il tempo di reload
 $i_ref_time = gdrcd_filter_get($_GET['ref']);
 
+// Se è una chat privata e non ho i permessi per accedervi, esco
+if(!gdrcd_controllo_permessi_chat()){
+    exit();
+}
+
 if((gdrcd_filter_get($_REQUEST['chat']) == 'yes') && (empty($_SESSION['login']) === false)) {
     /*Aggiornamento chat*/
     /*Se ho inviato un azione*/
@@ -407,9 +412,7 @@ if((gdrcd_filter_get($_REQUEST['chat']) == 'yes') && (empty($_SESSION['login']) 
     <link rel="stylesheet" href="../themes/<?php echo $PARAMETERS['themes']['current_theme']; ?>/chat.css" TYPE="text/css">
     <title>Chat</title>
 </head>
-<body class="transparent_body" <?php if(gdrcd_filter('get', $_REQUEST['chat']) == 'yes') {
-    echo 'onLoad="echoChat();"';
-} ?> >
+<body class="transparent_body" <?php if(gdrcd_filter('get', $_REQUEST['chat']) == 'yes') { echo 'onLoad="echoChat();"';} ?> >
 <?php
 if(gdrcd_filter('get', $_REQUEST['chat']) == 'yes') {
     echo '<script type="text/javascript"> function echoChat(){';
