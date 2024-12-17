@@ -31,6 +31,7 @@ if( ! empty($_SESSION['login'])) {
         $_SESSION['luogo'] = $_REQUEST['dir'];
     }
 }
+ 
 
 /* INFORMAZIONI SU GDRCD */
 $PARAMETERS['info']['GDRCD'] = '5.6.0.6'; //versione di GDRCD
