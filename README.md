@@ -16,7 +16,7 @@ ampliate le correnti su suggerimento dell'utenza.
 ## COMMUNITY DI SVILUPPO
 
 GDRCD è un progetto Open Source e come tale è aperto ai contributi.
-Il [core team](github.com/orgs/GDRCD/teams/supervisor) di GDRCD si riserva di vagliare personalmente eventuali
+Il [core team](https://github.com/orgs/GDRCD/teams/supervisor) di GDRCD si riserva di vagliare personalmente eventuali
 modifiche da inserire direttamente nel core ufficiale del programma,
 ma nulla vieta di rilasciarle come MODs o di produrre release alternative.
 
