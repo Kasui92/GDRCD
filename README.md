@@ -166,8 +166,8 @@ alla homepage. Se si visualizza la homepage con il form di login e tutto
 allora l'installazione è completa. Prova ad effettuare il login come
 amministratore del sito:
 
-    > **username**: Super
-    > **password**: super
+    > **username**: Super \
+    **password**: super
 
     Se il login viene effettuato tutto è andato liscio, altrimenti c'è qualcosa
     che non va. Prova ad installare manualmente il database con il servizio di
