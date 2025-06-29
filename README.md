@@ -3,6 +3,7 @@
 ## VERSIONE STABILE
 
 Le corrente versione è stabile, ma ancora soggetta ed ampliamenti,
+
 tuttavia dalla fase di testing della release beta è stata
 comprovato il corretto funzionamento del software.
 Le eventuali correzioni saranno rilasciare come nuove versioni
@@ -37,6 +38,7 @@ cartella `pages`. Le modifiche proposte al core che non rispettino
 questi standard non verranno prese in considerazione.
 
 
+
 ## VENIAMO AL DUNQUE, COME LA FACCIO 'STA LAND?
 
 1. Scaricare il file zip della [release](https://github.com/GDRCD/GDRCD/releases) più recente e decomprimerlo.
@@ -44,6 +46,7 @@ questi standard non verranno prese in considerazione.
 
 3. Fare l'upload di tutti i file e tutte le cartelle sul tuo spazio
 web. Potresti aver bisogno di un programma come Filezilla.
+
     > **ATTENZIONE:** Ogni file deve essere all'interno della stessa cartella
 come l'hai trovato nel file zip scaricato, altrimenti il sito non funzionerà.
 
