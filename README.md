@@ -1,4 +1,4 @@
-# GDRCD 5.6.0.6 - Users Manual
+# GDRCD 5.7 - Users Manual
 
 ## VERSIONE STABILE
 
