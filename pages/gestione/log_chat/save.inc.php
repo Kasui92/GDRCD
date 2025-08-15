@@ -2,7 +2,7 @@
 if (($_SESSION['permessi'] < MODERATOR) || ($PARAMETERS['mode']['spymessages'] != 'ON')){
     echo '<div class="error">'.gdrcd_filter('out',$MESSAGE['error']['not_allowed']).'</div>';
 } else {
-    switch ($_POST['op']) {
+    switch ($_REQUEST['op']) {
         # Cancella account
         case 'view_user':
                      
@@ -20,76 +20,71 @@ if (($_SESSION['permessi'] < MODERATOR) || ($PARAMETERS['mode']['spymessages'] !
 
             /* Se esistono record */
             if ($numresults > 0) {
+                $sender=gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['sender']);
+                $date=gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['date']);
+                $text=gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['text']);
                 echo <<<HTML
-                <!-- Elenco dei record paginato -->
-                <div class="elenco_record_gestione">
-                    <table>
-                        <!-- Intestazione tabella -->
-                        <tr>
-                            <td class="casella_titolo">
-                                <div class="titoli_elenco">
-                HTML;
-                echo gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['sender']);
-                echo <<<HTML
-                                </div>
-                            </td>
-                            <td class="casella_titolo">
-                                <div class="titoli_elenco">
-                HTML;
-                echo gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['date']);
-                echo <<<HTML
-                                </div>
-                            </td>
-                            <td class="casella_titolo">
-                                <div class="titoli_elenco">
-                HTML;
-                echo gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['text']);
-                echo <<<HTML
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Record -->
-                HTML;
+<!-- Elenco dei record paginato -->
+<div class="elenco_record_gestione">
+    <table>
+        <!-- Intestazione tabella -->
+        <tr>
+            <td class="casella_titolo">
+                <div class="titoli_elenco">
+                    {$sender}
+                </div>
+            </td>
+            <td class="casella_titolo">
+                <div class="titoli_elenco">
+                    {$date}
+                </div>
+            </td>
+            <td class="casella_titolo">
+                <div class="titoli_elenco">
+                    {$text}
+                </div>
+            </td>
+        </tr>
+        <!-- Record -->
+HTML;
                 while ($row = gdrcd_query($result, 'fetch')) {
-                    echo <<<HTML
-                            <tr class="risultati_elenco_record_gestione">
-                                <td class="casella_elemento">
-                                    <div class="elementi_elenco">
-                HTML;
-                    echo gdrcd_filter('out', $row['nome']);
-                    echo <<<HTML
-                                    </div>
-                                </td>
-                                <td class="casella_elemento">
-                                    <div class="elementi_elenco">
-                HTML;
-                    echo gdrcd_format_datetime($row['ora']);
-                    echo <<<HTML
-                                    </div>
-                                </td>
-                                <td class="casella_elemento">
-                                    <div class="elementi_elenco">
-                HTML;
+                    $nome=gdrcd_filter('out', $row['nome']);
+                    $ora= gdrcd_format_datetime($row['ora']);
                     if (empty($row['destinatario']) === false) {
-                        echo '(-> ' . gdrcd_filter('out', $row['destinatario']) . ') ';
+                        $destinatario= '(-> ' . gdrcd_filter('out', $row['destinatario']) . ') ';
                     }
-                    echo gdrcd_filter('out', $row['testo']);
+                    $testo= gdrcd_filter('out', $row['testo']);
                     echo <<<HTML
-                                    </div>
-                                </td>
-                            </tr>
-                HTML;
+        <tr class="risultati_elenco_record_gestione">
+            <td class="casella_elemento">
+                <div class="elementi_elenco">
+                    {$nome}
+                </div>
+            </td>
+            <td class="casella_elemento">
+                <div class="elementi_elenco">
+                    {$ora}               
+                </div>
+            </td>
+            <td class="casella_elemento">
+                <div class="elementi_elenco">
+                    {$destinatario}
+                    {$testo}
+                </div>
+            </td>
+        </tr>
+HTML;
                 } //while
                 echo <<<HTML
-                    </table>
-                </div>
-                HTML;
+    </table>
+</div>
+HTML;
             }//if
             
             echo <<<HTML
-            <!-- Paginatore elenco -->
-            <div class="pager">
-            HTML;
+<!-- Paginatore elenco -->
+<div class="pager">
+HTML;
             if ($totaleresults > $PARAMETERS['settings']['records_per_page']) {
                 echo gdrcd_filter('out', $MESSAGE['interface']['pager']['pages_name']);
                 for ($i = 0; $i <= floor($totaleresults / $PARAMETERS['settings']['records_per_page']); $i++) {
@@ -104,8 +99,8 @@ HTML;
                 } //for
             }//if
             echo <<<HTML
-            </div>
-            HTML;
+</div>
+HTML;
             break;
 
         case 'view_date':
@@ -126,65 +121,62 @@ HTML;
             $numresults = gdrcd_query($result, 'num_rows');
             /* Se esistono record */
             if ($numresults > 0) {
+
+                 $sender=gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['sender']);
+                $date=gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['date']);
+                $text=gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['text']);
                 echo <<<HTML
-                <!-- Elenco dei record paginato -->
-                <div class="elenco_record_gestione">
-                    <table>
-                        <!-- Intestazione tabella -->
-                        <tr>
-                            <td class="casella_titolo">
-                                <div class="titoli_elenco">
-                HTML;
-                echo gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['sender']);
-                echo <<<HTML
-                                </div>
-                            </td>
-                            <td class="casella_titolo">
-                                <div class="titoli_elenco">
-                HTML;
-                echo gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['date']);
-                echo <<<HTML
-                                </div>
-                            </td>
-                            <td class="casella_titolo">
-                                <div class="titoli_elenco">
-                HTML;
-                echo gdrcd_filter('out', $MESSAGE['interface']['administration']['log']['chat']['text']);
-                echo <<<HTML
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Record -->
-                    HTML;
+<!-- Elenco dei record paginato -->
+<div class="elenco_record_gestione">
+    <table>
+        <!-- Intestazione tabella -->
+        <tr>
+            <td class="casella_titolo">
+                <div class="titoli_elenco">
+                    {$sender}
+                </div>
+            </td>
+            <td class="casella_titolo">
+                <div class="titoli_elenco">
+                    {$date}
+                </div>
+            </td>
+            <td class="casella_titolo">
+                <div class="titoli_elenco">
+                    {$text}
+                </div>
+            </td>
+        </tr>
+
+        <!-- Record -->
+HTML;
                 while ($row = gdrcd_query($result, 'fetch')) {
-                    echo <<<HTML
-                            <tr class="risultati_elenco_record_gestione">
-                                <td class="casella_elemento">
-                                    <div class="elementi_elenco">
-                    HTML;
-                    echo gdrcd_filter('out', $row['mittente']);
-                    echo <<<HTML
-                                    </div>
-                                </td>
-                                <td class="casella_elemento">
-                                    <div class="elementi_elenco">
-                    HTML;
-                    echo gdrcd_format_datetime($row['ora']);
-                    echo <<<HTML
-                                    </div>
-                                </td>
-                                <td class="casella_elemento">
-                                    <div class="elementi_elenco">
-                    HTML;
+                    $mittente=gdrcd_filter('out', $row['mittente']);
+                    $ora= gdrcd_format_datetime($row['ora']);
                     if (empty($row['destinatario']) === false) {
-                        echo '(-> ' . gdrcd_filter('out', $row['destinatario']) . ') ';
+                        $destinatario= '(-> ' . gdrcd_filter('out', $row['destinatario']) . ') ';
                     }
-                    echo gdrcd_filter('out', $row['testo']);
+                    $testo= gdrcd_filter('out', $row['testo']);
                     echo <<<HTML
-                                    </div>
-                                </td>
-                            </tr>
-                    HTML;
+        <tr class="risultati_elenco_record_gestione">
+            <td class="casella_elemento">
+                <div class="elementi_elenco">
+                    {$mittente}
+                </div>
+            </td>
+            <td class="casella_elemento">
+                <div class="elementi_elenco">
+                    {$ora}               
+                </div>
+            </td>
+            <td class="casella_elemento">
+                <div class="elementi_elenco">
+                    {$destinatario}
+                    {$testo}
+                </div>
+            </td>
+        </tr>
+HTML;
                 } //while
                 gdrcd_query($result, 'free');
                 echo <<<HTML
@@ -204,8 +196,8 @@ HTML;
                         $luogo_filtered = gdrcd_filter('get', $_REQUEST['luogo']);
                         $page_num = $i + 1;
                         echo <<<HTML
-                        <a href="main.php?page=log_chat&op=view_date&luogo={$luogo_filtered}&data_a={$data_a}&data_b={$data_b}&offset={$i}">{$page_num}</a>
-                        HTML;
+<a href="main.php?page=log_chat&op=view_date&luogo={$luogo_filtered}&data_a={$data_a}&data_b={$data_b}&offset={$i}">{$page_num}</a>
+HTML;
                     } else {
                         echo ' ' . ($i + 1) . ' ';
                     }
