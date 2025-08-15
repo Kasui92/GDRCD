@@ -96,7 +96,7 @@ if (($_SESSION['permessi'] < MODERATOR) || ($PARAMETERS['mode']['spymessages'] !
                     if ($i != $_REQUEST['offset']) {
                         $page_num = $i + 1;
                         echo <<<HTML
-                        <a href="main.php?page=log_chat&op=view&pg={$_REQUEST['pg']}&offset={$i}">{$page_num}</a>
+                        <a href="main.php?page=log_chat&op=view_user&pg={$_REQUEST['pg']}&offset={$i}">{$page_num}</a>
 HTML;
                     } else {
                         echo ' ' . ($i + 1) . ' ';
@@ -204,7 +204,7 @@ HTML;
                         $luogo_filtered = gdrcd_filter('get', $_REQUEST['luogo']);
                         $page_num = $i + 1;
                         echo <<<HTML
-                        <a href="main.php?page=log_chat&op=view&luogo={$luogo_filtered}&data_a={$data_a}&data_b={$data_b}&offset={$i}">{$page_num}</a>
+                        <a href="main.php?page=log_chat&op=view_date&luogo={$luogo_filtered}&data_a={$data_a}&data_b={$data_b}&offset={$i}">{$page_num}</a>
                         HTML;
                     } else {
                         echo ' ' . ($i + 1) . ' ';
