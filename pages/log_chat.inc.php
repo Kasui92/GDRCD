@@ -10,7 +10,7 @@
     </div>
     <div class="page_body">
         <?php
-        switch(gdrcd_filter_get($_POST['op'])) {
+        switch($_REQUEST['op']) {
             case 'view_user': // Salvataggio modifiche
             case 'view_date': // Salvataggio modifiche
                 include('gestione/log_chat/save.inc.php');
