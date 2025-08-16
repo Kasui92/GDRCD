@@ -104,21 +104,58 @@ HTML;
             break;
 
         case 'view_date':
-            //Determinazione pagina (paginazione)
-            $pagebegin = (int) $_REQUEST['offset'] * $PARAMETERS['settings']['records_per_page'];
-            $pageend = $PARAMETERS['settings']['records_per_page'];
-            //Conteggio record totali
-            $record_globale = gdrcd_query("SELECT COUNT(*) FROM chat WHERE stanza = '" . gdrcd_filter('get',
-                    $_REQUEST['luogo']) . "'");
-            $totaleresults = $record_globale['COUNT(*)'];
-            $data_a=gdrcd_format_datetime_standard($_REQUEST['data_a']);
-            $data_b= gdrcd_format_datetime_standard($_REQUEST['data_b']);
-            $query="SELECT chat.mittente, chat.destinatario, chat.tipo, chat.ora, chat.testo FROM chat WHERE chat.stanza = '" . gdrcd_filter('get',
-                    $_REQUEST['luogo']) . "' AND ora >= '" . $data_a  . "' AND ora <= '" . $data_b . "' ORDER BY ora DESC LIMIT " . $pagebegin . ", " . $pageend;
+            // Input della richiesta
+            $luogo = $_REQUEST['luogo'];
+            $data_a = gdrcd_format_datetime_standard($_REQUEST['data_a']);
+            $data_b = gdrcd_format_datetime_standard($_REQUEST['data_b']);
 
-            //Lettura record
-            $result = gdrcd_query($query,'result');
+            //Determinazione pagina (paginazione)
+            $pagebegin = gdrcd_filter('in', (int) $_REQUEST['offset'] * $PARAMETERS['settings']['records_per_page']);
+            $pageend = gdrcd_filter('in', $PARAMETERS['settings']['records_per_page']);
+
+            // Parametri di ricerca per le query al database
+            $parametri_query = [
+                'iss',
+                $luogo,
+                $data_a,
+                $data_b,
+            ];
+
+            //Conteggio record totali
+            $stmt = gdrcd_stmt(
+                'SELECT COUNT(*) AS numero_azioni FROM chat WHERE stanza = ? AND ora >= ? AND ora <= ?',
+                $parametri_query
+            );
+
+            $record_globale = gdrcd_query($stmt, 'fetch');
+            gdrcd_query($stmt, 'free');
+
+            $totaleresults = $record_globale['numero_azioni'];
+
+            // RQuery per il recupero della pagina di azioni richiesta
+            $query = <<<SQL
+                SELECT
+                    chat.mittente,
+                    chat.destinatario,
+                    chat.tipo,
+                    chat.ora,
+                    chat.testo
+
+                FROM chat
+
+                WHERE
+                    chat.stanza = ?
+                    AND ora >= ?
+                    AND ora <= ?
+
+                ORDER BY ora DESC
+
+                LIMIT {$pagebegin}, {$pageend}
+                SQL;
+
+            $result = gdrcd_stmt($query, $parametri_query);
             $numresults = gdrcd_query($result, 'num_rows');
+
             /* Se esistono record */
             if ($numresults > 0) {
 
