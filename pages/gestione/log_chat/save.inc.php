@@ -5,7 +5,7 @@ if (($_SESSION['permessi'] < MODERATOR) || ($PARAMETERS['mode']['spymessages'] !
     switch ($_REQUEST['op']) {
         # Cancella account
         case 'view_user':
-                     
+
             //Determinazione pagina (paginazione)
             $pagebegin = (int) $_REQUEST['offset'] * $PARAMETERS['settings']['records_per_page'];
             $pageend = $PARAMETERS['settings']['records_per_page'];
@@ -63,7 +63,7 @@ HTML;
             </td>
             <td class="casella_elemento">
                 <div class="elementi_elenco">
-                    {$ora}               
+                    {$ora}
                 </div>
             </td>
             <td class="casella_elemento">
@@ -80,7 +80,7 @@ HTML;
 </div>
 HTML;
             }//if
-            
+
             echo <<<HTML
 <!-- Paginatore elenco -->
 <div class="pager">
